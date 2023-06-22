@@ -9,9 +9,5 @@ export default function Login() {
 				Sign in
 			</button>
 		</li>
-
-
 	);
-	
-	
 }
