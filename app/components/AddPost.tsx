@@ -15,7 +15,7 @@ export default function AddPost() {
 	}, [title]);
 
 	return (
-		<form className="bg-blue-100 my-8 p-8 rounded-lg shadow-xl">
+		<form className="bg-blue-100 my-8 p-8 rounded-lg shadow-xl ml-2">
 			<div className="flex-1 px-2 pt-2 mt-1">
       <p
 						className={`font-bold float-right mb-3 ${
