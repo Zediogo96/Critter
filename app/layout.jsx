@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
 
 			</head>
 
-			<body className={`mx-4 md:mx-48 xl:mx-96 ${roboto.variable} bg-gray-200`}>
+			<body className={`mx-4 md:mx-48 xl:mx-96 ${roboto.variable} bg-zinc-100`}>
 				<Nav />
 				{children}
 			</body>

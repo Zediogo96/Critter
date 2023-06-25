@@ -15,3 +15,50 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+
+
+/* ANIMATIONS */
+
+@keyframes shake {
+  0% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+  75% {
+    transform: translateX(-4px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.shake-animation {
+  animation: shake 0.4s linear 1;
+}
+
+
+@keyframes scaleUp {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
+}
+
+.scale-up-animation {
+  animation: scaleUp 0.4s linear 1;
+}
+
+/* END ANIMATIONS */
+
+textarea::placeholder {
+  color: rgb(35, 36, 95);
+}
+
+
