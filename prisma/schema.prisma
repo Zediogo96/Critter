@@ -42,6 +42,7 @@ model User {
   accounts      Account[]
   posts         Post[]
   sessions      Session[]
+  comments      Comment[]
 }
 
 model VerificationToken {
@@ -56,8 +57,20 @@ model Post {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-  title     String   @db.VarChar(255)
+  title     String   @db.VarChar(280)
   published Boolean  @default(false)
   userID    String
   user      User     @relation(fields: [userID], references: [id], onDelete: Cascade)
+  comments  Comment[]
+}
+
+model Comment {
+  id String @id @default(cuid())
+  message String @db.VarChar(280)
+  postID String 
+  userID String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  post Post @relation(fields: [postID], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userID], references: [id], onDelete: Cascade)
 }

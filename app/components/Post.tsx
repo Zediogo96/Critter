@@ -18,7 +18,8 @@ export default function Post({
 	return (
 		<div>
 			<div className="flex flex-shrink-0 p-4 pb-0">
-				<a href="#" className="flex-shrink-0 group block">
+			<span className="flex-shrink-0 group block">
+
 					<div className="flex items-center">
 						<div>
 							<Link href={""}>
@@ -41,7 +42,7 @@ export default function Post({
 							</p>
 						</div>
 					</div>
-				</a>
+				</span>
 			</div>
 			<div className="pl-16">
 				<Link href={`/post/${id}`}>
@@ -134,7 +135,5 @@ export default function Post({
 			</div>
 			<hr className="border-gray-300" />
 		</div>
-
-		
 	);
 }

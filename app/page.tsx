@@ -11,7 +11,6 @@ import Post from "./components/Post";
 // Fetch all posts
 const allPosts = async () => {
   const response = await axios.get("/api/posts/getPost");
-  console.log(response.data.posts);
   return response.data.posts;
 };
 
