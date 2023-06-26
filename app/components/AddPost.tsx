@@ -23,7 +23,8 @@ export default function AddPost() {
 			await axios.post("/api/posts/addPost", { title: title }),
 		{
 			onSuccess: (response) => {
-				console.log("Response: ", response);
+				// To clear the loading toast
+				toast.dismiss();
 				// Clear the input field
 				setTitle("");
 				// Reset the textarea value to an empty string
@@ -31,11 +32,11 @@ export default function AddPost() {
 				// Re-enable the submit button
 				setIsDisabled(false);
 				// Show the response message in a toast notification
-
 				if (response?.data.status === 403) toast.error(response?.data.message)
 				else toast.success(response?.data.message);
 			},
 			onError: (error) => {
+				toast.dismiss();
 				if (error instanceof AxiosError) 
 					toast.error(error?.response?.data.message);
 			}
@@ -44,6 +45,7 @@ export default function AddPost() {
 	);
 
 	const submitPost = async (e: React.FormEvent) => {
+		const toastID = toast.loading("Submiting your Critter...")
 		e.preventDefault();
 		setIsDisabled(true);
 		mutate(title);
@@ -171,7 +173,7 @@ export default function AddPost() {
 						disabled={isDisabled}
 						type="submit"
 					>
-						Tweet
+						Critt!
 					</button>
 				</div>
 			</div>

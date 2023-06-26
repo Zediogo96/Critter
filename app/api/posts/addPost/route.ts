@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
 			email: session?.user?.email,
 		},
 	});
-	
+
 	if (title.length > 280)
 		return NextResponse.json({
 			status: 403,
@@ -42,15 +42,12 @@ export async function POST(request: NextRequest) {
 			},
 		});
 
-		return NextResponse.json({ status: 200, message: "Post Created!"});
-
+		return NextResponse.json({ status: 200, message: "Post Created!" });
 	} catch (err) {
-		
 		return NextResponse.json({
 			status: 500,
 			err: "Something went wrong while creating the Post.",
 		});
 	}
-
-	
 }
+
