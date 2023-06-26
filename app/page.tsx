@@ -36,6 +36,7 @@ export default function Home() {
             username={post.user.name}
             datePublished={post.createdAt!}
             userImg={post.user.image}
+            id={post.id}
           />
         ))}
       </div>

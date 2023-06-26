@@ -7,11 +7,13 @@ export default function Post({
 	title,
 	datePublished,
 	userImg,
+	id
 }: {
 	username: string;
 	title: string;
 	datePublished: string;
 	userImg: string;
+	id: string;
 }) {
 	return (
 		<div>
@@ -42,9 +44,11 @@ export default function Post({
 				</a>
 			</div>
 			<div className="pl-16">
-				<p className="text-base width-auto font-medium text-black flex-shrink">
-					{title}
-				</p>
+				<Link href={`/post/${id}`}>
+					<p className="text-base width-auto font-medium text-black flex-shrink">
+						{title}
+					</p>
+				</Link>
 
 				<div className="flex">
 					<div className="w-full">
