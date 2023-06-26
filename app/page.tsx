@@ -25,7 +25,7 @@ export default function Home() {
   if (isLoading) return "Loading...";
 
   return (
-    <div className="flex mt-6">
+    <div className="flex">
       <NavBar />
       <div className="flex flex-col overflow-x-auto">
         <AddPost />

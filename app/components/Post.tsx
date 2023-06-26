@@ -54,9 +54,9 @@ export default function Post({
 					<div className="w-full">
 						<div className="flex items-center">
 							<div className="flex-1 text-center">
-								<a
+							<a
 									href="#"
-									className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300"
+									className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium duration-400 hover:scale-[1.2] hover:text-blue-500"
 								>
 									<svg
 										className="text-center h-6 w-6"
@@ -73,9 +73,9 @@ export default function Post({
 							</div>
 
 							<div className="flex-1 text-center py-2 m-2">
-								<a
+							<a
 									href="#"
-									className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300"
+									className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium duration-400 hover:scale-[1.2] hover:text-blue-500"
 								>
 									<svg
 										className="text-center h-7 w-6"
@@ -94,7 +94,7 @@ export default function Post({
 							<div className="flex-1 text-center py-2 m-2">
 								<a
 									href="#"
-									className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300"
+									className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium duration-400 hover:scale-[1.2] hover:text-blue-500"
 								>
 									<svg
 										className="text-center h-7 w-6"
@@ -111,9 +111,9 @@ export default function Post({
 							</div>
 
 							<div className="flex-1 text-center py-2 m-2">
-								<a
+							<a
 									href="#"
-									className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-800 hover:text-blue-300"
+									className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium duration-400 hover:scale-[1.2] hover:text-blue-500"
 								>
 									<svg
 										className="text-center h-7 w-6"
@@ -132,6 +132,9 @@ export default function Post({
 					</div>
 				</div>
 			</div>
+			<hr className="border-gray-300" />
 		</div>
+
+		
 	);
 }
