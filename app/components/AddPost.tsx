@@ -1,6 +1,9 @@
 "use Client";
 
 import { useEffect, useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import axios, { AxiosError } from "axios";
 
 export default function AddPost() {
 	// Related to limit of 300 characters per post
@@ -14,22 +17,61 @@ export default function AddPost() {
 		else isOverTextLimit(false);
 	}, [title]);
 
-	return (
-		<form className="bg-blue-100 my-8 p-8 rounded-lg shadow-xl ml-2">
-			<div className="flex-1 px-2 pt-2 mt-1">
-      <p
-						className={`font-bold float-right mb-3 ${
-							overTextLimit ? "text-red-500 shake-animation" : ""
-						} text-xs`}
-					>
-            {`${title.length} / ${CHAR_NUM_LIMIT}`}
+	// Create a post
+	const { mutate } = useMutation(
+		async (title: string) =>
+			await axios.post("/api/posts/addPost", { title: title }),
+		{
+			onSuccess: (response) => {
+				console.log("Response: ", response);
+				// Clear the input field
+				setTitle("");
+				// Reset the textarea value to an empty string
+				document.getElementsByTagName("textarea")[0].value = "";
+				// Re-enable the submit button
+				setIsDisabled(false);
+				// Show the response message in a toast notification
 
-        </p>
-				<textarea 
+				if (response?.data.status === 403) toast.error(response?.data.message)
+				else toast.success(response?.data.message);
+			},
+			onError: (error) => {
+				if (error instanceof AxiosError) 
+					toast.error(error?.response?.data.message);
+			}
+		}
+
+	);
+
+	const submitPost = async (e: React.FormEvent) => {
+		e.preventDefault();
+		setIsDisabled(true);
+		mutate(title);
+	};
+
+	return (
+		<form
+			method="POST"
+			onSubmit={submitPost}
+			className="bg-blue-100 my-8 p-8 rounded-lg shadow-xl ml-2"
+		>
+			<div className="flex-1 px-2 pt-2 mt-1">
+				<p
+					className={`font-bold float-right mb-3 ${
+						overTextLimit ? "text-red-500 shake-animation" : ""
+					} text-xs`}
+				>
+					{`${title.length} / ${CHAR_NUM_LIMIT}`}
+				</p>
+				<textarea
 					onKeyDown={(e) => {
-            
-						const isDeleteOrNavKey = e.key === "Backspace" || e.key === "Delete"
-            || e.key === "ArrowLeft" || e.key === "ArrowRight" || e.key === "ArrowUp" || e.key === "ArrowDown";
+						const isDeleteOrNavKey =
+							e.key === "Backspace" ||
+							e.key === "Delete" ||
+							e.key === "ArrowLeft" ||
+							e.key === "ArrowRight" ||
+							e.key === "ArrowUp" ||
+							e.key === "ArrowDown";
 
 						if (!isDeleteOrNavKey && overTextLimit) e.preventDefault();
 					}}
@@ -127,6 +169,7 @@ export default function AddPost() {
 					<button
 						className="bg-blue-400 mt-5 hover:bg-slate-500 shadow-md text-white font-bold py-2 px-8 rounded-lg float-right"
 						disabled={isDisabled}
+						type="submit"
 					>
 						Tweet
 					</button>
