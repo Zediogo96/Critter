@@ -26,7 +26,8 @@
     "react-dom": "^18.2.0",
     "react-error-overlay": "^6.0.9",
     "react-hot-toast": "^2.4.1",
-    "react-query": "^3.39.3"
+    "react-query": "^3.39.3",
+    "react-router-dom": "^6.14.0"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.0.1",

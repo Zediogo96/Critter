@@ -8,6 +8,10 @@ import { PostsType } from "@/app/types/Posts";
 import { useSession } from "next-auth/react";
 
 import Image from "next/image";
+import { toast } from "react-hot-toast";
+
+import { redirect } from "next/navigation"
+import { useEffect } from "react";
 
 type URL = {
 	params: {
@@ -19,20 +23,20 @@ type URL = {
 // Fetch Details of a single post
 const fetchDetails = async (slug: string) => {
 	const response = await axios.get(`/api/posts/getPost/${slug}`);
-	console.log(response);
 	return response.data.post;
 };
 
 export default function PostDetails(url: URL) {
 	const { data: session, status } = useSession();
 
-	console.log(session);
-
 	if (status === "loading") return "Loading...";
-	if (!session) {
-		// Handle the case when the user is not authenticated
-		return <div>Please sign in to view this page.</div>;
-	}
+
+	useEffect(() => {
+		if (!session) {
+		  toast.error("You need to be logged in to view this page");
+		  redirect("/");
+		}
+	  }, []);
 
 	const { data, error, isLoading } = useQuery<PostsType>({
 		queryFn: () => fetchDetails(url.params.slug),
@@ -58,7 +62,7 @@ export default function PostDetails(url: URL) {
 			<div className="flex ">
 				<Image
 					className="rounded-full w-10 h-10 mt-8 ml-5"
-					src={session.user?.image || ""}
+					src={session?.user?.image || ""}
 					alt="Profile Picture"
 					width={50}
 					height={50}
