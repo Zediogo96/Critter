@@ -13,6 +13,7 @@ import { toast } from "react-hot-toast";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 import NavBar from "@/app/components/NavBar";
+import SearchBar from "@/app/components/SearchBar";
 
 type URL = {
 	params: {
@@ -30,14 +31,16 @@ const fetchDetails = async (slug: string) => {
 export default function PostDetails(url: URL) {
 	const { data: session, status } = useSession();
 
-	if (status === "loading") return "Loading...";
-
 	useEffect(() => {
 		if (!session) {
 			toast.error("You need to be logged in to view this page");
 			redirect("/");
 		}
 	}, []);
+
+	if (status === "loading") return "Loading...";
+
+	
 
 	const { data, error, isLoading } = useQuery<PostsType>({
 		queryFn: () => fetchDetails(url.params.slug),
@@ -50,7 +53,7 @@ export default function PostDetails(url: URL) {
 	return (
 		<div className="flex flex-row">
 			<NavBar />
-			<div className="flex flex-col">
+			<div className="flex flex-col w-3/5">
 				<div>
 					<Post
 						key={data?.id}
@@ -73,7 +76,7 @@ export default function PostDetails(url: URL) {
 
 					<div className="w-full flex flex-col">
 						<textarea
-							className="w-11/12 h-20 mt-5 ml-10 p-2 rounded-md border-2 border-gray-300 focus:outline-none focus:border-blue-500"
+							className="w-11/12 h-20 mt-5 ml-10 p-2 rounded-md border-2 border-gray-300 focus:outline-none focus:border-blue-300"
 							placeholder="Write a comment..."
 						></textarea>
 
@@ -83,6 +86,8 @@ export default function PostDetails(url: URL) {
 					</div>
 				</div>
 			</div>
+
+			<SearchBar />
 		</div>
 	);
 }

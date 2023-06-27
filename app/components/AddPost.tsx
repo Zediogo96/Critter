@@ -78,7 +78,7 @@ export default function AddPost() {
 						if (!isDeleteOrNavKey && overTextLimit) e.preventDefault();
 					}}
 					onChange={(e) => setTitle(e.target.value)}
-					className="bg-white font-medium text-md px-2 py-1 mx-2 w-full rounded-md"
+					className="bg-white font-medium text-md px-2 py-1 mx-2 w-full rounded-md focus:outline-none focus:outline-blue-300"
 					rows={3}
 					cols={50}
 					placeholder="What's happening?"
