@@ -13,7 +13,8 @@ export async function GET(
 				id: postID
 			},
 			include: {
-				user: true
+				user: true,
+				comments: true
 			},
 		});
 
@@ -23,7 +24,7 @@ export async function GET(
 				err: "Post not found.",
 			});
 		}
-
+		
 		return NextResponse.json({ status: 200, post });
 	} catch (err) {
 		return NextResponse.json({

@@ -10,8 +10,9 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { toast } from "react-hot-toast";
 
-import { redirect } from "next/navigation"
+import { redirect } from "next/navigation";
 import { useEffect } from "react";
+import NavBar from "@/app/components/NavBar";
 
 type URL = {
 	params: {
@@ -33,10 +34,10 @@ export default function PostDetails(url: URL) {
 
 	useEffect(() => {
 		if (!session) {
-		  toast.error("You need to be logged in to view this page");
-		  redirect("/");
+			toast.error("You need to be logged in to view this page");
+			redirect("/");
 		}
-	  }, []);
+	}, []);
 
 	const { data, error, isLoading } = useQuery<PostsType>({
 		queryFn: () => fetchDetails(url.params.slug),
@@ -47,36 +48,39 @@ export default function PostDetails(url: URL) {
 	if (error) return error;
 
 	return (
-		<div>
-			<div>
-				<Post
-					key={data?.id}
-					title={data?.title || ""}
-					username={data?.user.name || ""}
-					datePublished={data?.createdAt!}
-					userImg={data?.user.image || ""}
-					id={data?.id || ""}
-				/>
-			</div>
+		<div className="flex flex-row">
+			<NavBar />
+			<div className="flex flex-col">
+				<div>
+					<Post
+						key={data?.id}
+						title={data?.title || ""}
+						username={data?.user.name || ""}
+						datePublished={data?.createdAt!}
+						userImg={data?.user.image || ""}
+						id={data?.id || ""}
+					/>
+				</div>
 
-			<div className="flex ">
-				<Image
-					className="rounded-full w-10 h-10 mt-8 ml-5"
-					src={session?.user?.image || ""}
-					alt="Profile Picture"
-					width={50}
-					height={50}
-				/>
+				<div className="flex ">
+					<Image
+						className="rounded-full w-10 h-10 mt-8 ml-5"
+						src={session?.user?.image || ""}
+						alt="Profile Picture"
+						width={50}
+						height={50}
+					/>
 
-				<div className="w-full flex flex-col">
-					<textarea
-						className="w-11/12 h-20 mt-5 ml-10 p-2 rounded-md border-2 border-gray-300 focus:outline-none focus:border-blue-500"
-						placeholder="Write a comment..."
-					></textarea>
+					<div className="w-full flex flex-col">
+						<textarea
+							className="w-11/12 h-20 mt-5 ml-10 p-2 rounded-md border-2 border-gray-300 focus:outline-none focus:border-blue-500"
+							placeholder="Write a comment..."
+						></textarea>
 
-					<button className="bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 mt-3 ml-auto rounded-lg mr-6 ">
-						Reply
-					</button>
+						<button className="bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 mt-3 ml-auto rounded-lg mr-6 ">
+							Reply
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>

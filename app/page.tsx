@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import AddPost from "./components/AddPost";
 import NavBar from "./components/NavBar";
 import Post from "./components/Post";
+import SearchBar from "./components/SearchBar";
 
 // Fetch all posts
 const allPosts = async () => {
@@ -24,9 +25,9 @@ export default function Home() {
   if (isLoading) return "Loading...";
 
   return (
-    <div className="flex">
+    <div className="flex ">
       <NavBar />
-      <div className="flex flex-col overflow-x-auto">
+      <div className="flex flex-col overflow-x-auto w-3/5">
         <AddPost />
         {data?.map((post) => (
           <Post
@@ -39,6 +40,7 @@ export default function Home() {
           />
         ))}
       </div>
+      <SearchBar />
     </div>
   );
 }
