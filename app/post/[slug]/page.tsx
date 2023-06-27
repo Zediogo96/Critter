@@ -40,8 +40,6 @@ export default function PostDetails(url: URL) {
 
 	if (status === "loading") return "Loading...";
 
-	
-
 	const { data, error, isLoading } = useQuery<PostsType>({
 		queryFn: () => fetchDetails(url.params.slug),
 		queryKey: ["postDetails", url.params.slug],
