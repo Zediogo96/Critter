@@ -1,19 +1,23 @@
-'use client'
+"use client";
 
-import { authOptions } from "@/utils/authOptions";
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { toast } from "react-hot-toast";
+import { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 import Image from "next/image";
 import NavBar from "../components/NavBar";
 import ProfileNavbar from "./profileNavBar";
-import { useEffect } from "react";
-import { useSession } from "next-auth/react";
 
-export default function DashBoard() {
+import { PostsType } from "../types/Posts";
+import Post from "../components/Post";
 
-    const { data: session, status } = useSession();
+import { URL } from "../types/URL";
+
+export default function DashBoard(url: URL) {
+	const { data: session, status } = useSession();
 
 	useEffect(() => {
 		if (!session) {
@@ -21,6 +25,21 @@ export default function DashBoard() {
 			redirect("/");
 		}
 	}, []);
+
+	// Fetch Details of a single post
+	const fetchPosts = async () => {
+		const response = await axios.get(`/api/posts/getPost/userPosts`);
+		return response.data.userPosts.posts;
+	};
+
+	const { data, error, isLoading } = useQuery<PostsType[]>({
+		queryFn: () => fetchPosts(),
+		queryKey: ["userPosts"],
+	});
+
+
+	if (isLoading) return "Loading...";
+	if (error) return error;
 
 	return (
 		<main className="flex flex-row">
@@ -54,6 +73,17 @@ export default function DashBoard() {
 					</div>
 					<ProfileNavbar />
 				</div>
+
+				{data?.map((post) => (
+					<Post
+						key={post.id}
+						title={post.title}
+						username={session?.user?.name || ""}
+						datePublished={post.createdAt!}
+						userImg={session?.user?.image || ""}
+						id={post.id}
+					/>
+				))}
 			</div>
 		</main>
 	);

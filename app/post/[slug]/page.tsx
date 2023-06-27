@@ -15,12 +15,8 @@ import { useEffect } from "react";
 import NavBar from "@/app/components/NavBar";
 import SearchBar from "@/app/components/SearchBar";
 
-type URL = {
-	params: {
-		slug: string;
-	};
-	searchParams: string;
-};
+import { URL } from "../../types/URL";
+
 
 // Fetch Details of a single post
 const fetchDetails = async (slug: string) => {
