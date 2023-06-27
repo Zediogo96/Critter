@@ -15,6 +15,18 @@ export default function Post({
 	userImg: string;
 	id: string;
 }) {
+
+	
+	const parseTitle = (title: string) => {
+		const hashtagRegex = /#\w+/g;
+		return title.replace(
+		  hashtagRegex,
+		  (match) => `<span style="color:rgb(110, 150, 253)">${match}</span>`
+		);
+	  };
+
+	const parsedTitle = parseTitle(title);
+	
 	return (
 		<div>
 			<div className="flex flex-shrink-0 p-4 pb-0">
@@ -46,8 +58,7 @@ export default function Post({
 			</div>
 			<div className="pl-16">
 				<Link href={`/post/${id}`}>
-					<p className="text-base width-auto font-medium text-black flex-shrink">
-						{title}
+					<p className="text-base width-auto font-medium text-black flex-shrink" dangerouslySetInnerHTML={{ __html: parsedTitle }}>
 					</p>
 				</Link>
 
