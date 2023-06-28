@@ -43,6 +43,7 @@ model User {
   posts         Post[]
   sessions      Session[]
   comments      Comment[]
+  likes         Like[]
 }
 
 model VerificationToken {
@@ -62,6 +63,7 @@ model Post {
   userID    String
   user      User     @relation(fields: [userID], references: [id], onDelete: Cascade)
   comments  Comment[]
+  likes     Like[]
 }
 
 model Comment {
@@ -71,6 +73,15 @@ model Comment {
   userID String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+  post Post @relation(fields: [postID], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userID], references: [id], onDelete: Cascade)
+}
+
+model Like {
+  id String @id @default(cuid())
+  postID String
+  userID String
+  createdAt DateTime @default(now())
   post Post @relation(fields: [postID], references: [id], onDelete: Cascade)
   user User @relation(fields: [userID], references: [id], onDelete: Cascade)
 }

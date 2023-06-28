@@ -1,37 +1,55 @@
 import { formatDate } from "@/utils/dateFunctions";
 import Link from "next/link";
 import Image from "next/image";
+import axios from "axios";
+import { useState } from "react";
 
 export default function Post({
 	username,
 	title,
 	datePublished,
 	userImg,
-	id
+	id,
+	likes,
+	userLiked,
 }: {
 	username: string;
 	title: string;
 	datePublished: string;
 	userImg: string;
 	id: string;
+	likes: any;
+	userLiked: Boolean;
 }) {
 
-	
+	// update the like button
+	const [isLiked, setUserLiked] = useState(userLiked);
+
 	const parseTitle = (title: string) => {
 		const hashtagRegex = /#\w+/g;
 		return title.replace(
-		  hashtagRegex,
-		  (match) => `<span style="color:rgb(110, 150, 253)">${match}</span>`
+			hashtagRegex,
+			(match) => `<span style="color:rgb(110, 150, 253)">${match}</span>`
 		);
-	  };
+	};
+
+	const handleLike = () => {
+		axios.post("/api/posts/addLike", { postId: id })
+			.then((response) => {
+				if (response.status === 201) setUserLiked(isLiked);
+				else if (response.status === 200) setUserLiked(!isLiked);
+			})
+			.catch((error) => {
+				// console.error(error);
+			});
+	};
 
 	const parsedTitle = parseTitle(title);
-	
+
 	return (
 		<div>
 			<div className="flex flex-shrink-0 p-4 pb-0">
-			<span className="flex-shrink-0 group block">
-
+				<span className="flex-shrink-0 group block">
 					<div className="flex items-center">
 						<div>
 							<Link href={""}>
@@ -58,15 +76,18 @@ export default function Post({
 			</div>
 			<div className="pl-16">
 				<Link href={`/post/${id}`}>
-					<p className="text-base width-auto font-medium text-black flex-shrink" dangerouslySetInnerHTML={{ __html: parsedTitle }}>
-					</p>
+					<p
+						className="text-base width-auto font-medium text-black flex-shrink"
+						dangerouslySetInnerHTML={{ __html: parsedTitle }}
+					></p>
 				</Link>
 
 				<div className="flex">
 					<div className="w-full">
 						<div className="flex items-center">
 							<div className="flex-1 text-center">
-							<a
+								{/* Comment Button */}
+								<a
 									href="#"
 									className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium duration-400 hover:scale-[1.2] hover:text-blue-500"
 								>
@@ -83,9 +104,9 @@ export default function Post({
 									</svg>
 								</a>
 							</div>
-
+							{/* ReCritt Button */}
 							<div className="flex-1 text-center py-2 m-2">
-							<a
+								<a
 									href="#"
 									className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium duration-400 hover:scale-[1.2] hover:text-blue-500"
 								>
@@ -102,11 +123,15 @@ export default function Post({
 									</svg>
 								</a>
 							</div>
-
+							{/* Like Button */}
 							<div className="flex-1 text-center py-2 m-2">
 								<a
+									onClick={handleLike}
 									href="#"
-									className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium duration-400 hover:scale-[1.2] hover:text-blue-500"
+									className={`w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium duration-400 hover:scale-[1.2] 
+									
+									${isLiked ? 'text-red-500 hover:text-red-300' : ''}
+									hover:text-blue-500`}
 								>
 									<svg
 										className="text-center h-7 w-6"
@@ -121,9 +146,9 @@ export default function Post({
 									</svg>
 								</a>
 							</div>
-
+							{/* Share Button */}
 							<div className="flex-1 text-center py-2 m-2">
-							<a
+								<a
 									href="#"
 									className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium duration-400 hover:scale-[1.2] hover:text-blue-500"
 								>

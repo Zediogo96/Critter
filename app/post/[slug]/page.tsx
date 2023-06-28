@@ -56,6 +56,8 @@ export default function PostDetails(url: URL) {
 						datePublished={data?.createdAt!}
 						userImg={data?.user.image || ""}
 						id={data?.id || ""}
+						likes={data?.likes || ""}
+						userLiked={data?.liked || false}
 					/>
 				</div>
 

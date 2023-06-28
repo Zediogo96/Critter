@@ -37,6 +37,8 @@ export default function Home() {
             datePublished={post.createdAt!}
             userImg={post.user.image}
             id={post.id}
+            likes={post.likes}
+            userLiked={post.liked!}
           />
         ))}
       </div>

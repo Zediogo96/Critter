@@ -12,4 +12,11 @@ export type PostsType = {
       name: string
       image: string
     }
+    likes?: {
+      createdAt: string
+      id: string
+      postId: string
+      userId: string
+    }[]
+    liked?: boolean
   }
