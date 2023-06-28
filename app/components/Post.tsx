@@ -135,7 +135,7 @@ export default function Post({
 								>
 									<svg
 										className="text-center h-7 w-6"
-										fill="none"
+										fill={isLiked ? 'red' : 'none'}
 										strokeLinecap="round"
 										strokeLinejoin="round"
 										strokeWidth="2"
