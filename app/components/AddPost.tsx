@@ -1,6 +1,6 @@
 "use Client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import axios, { AxiosError } from "axios";
@@ -17,6 +17,19 @@ export default function AddPost() {
 		else isOverTextLimit(false);
 	}, [title]);
 
+	// Handle image upload
+	const uploadedImage = useRef<HTMLInputElement>(null);
+
+	const [file, setUploadedImage] = useState();
+
+	function handleUpload(e: any) {
+		console.log(e.target.files);
+		setUploadedImage(e.target.files[0]);
+		e.target.value = null;
+	}
+
+	useEffect(() => {}, [file]);
+
 	// Create a post
 	const { mutate } = useMutation(
 		async (title: string) =>
@@ -32,20 +45,19 @@ export default function AddPost() {
 				// Re-enable the submit button
 				setIsDisabled(false);
 				// Show the response message in a toast notification
-				if (response?.data.status === 403) toast.error(response?.data.message)
+				if (response?.data.status === 403) toast.error(response?.data.message);
 				else toast.success(response?.data.message);
 			},
 			onError: (error) => {
 				toast.dismiss();
-				if (error instanceof AxiosError) 
+				if (error instanceof AxiosError)
 					toast.error(error?.response?.data.message);
-			}
+			},
 		}
-
 	);
 
 	const submitPost = async (e: React.FormEvent) => {
-		const toastID = toast.loading("Submiting your Critter...")
+		const toastID = toast.loading("Submiting your Critter...");
 		e.preventDefault();
 		setIsDisabled(true);
 		mutate(title);
@@ -65,6 +77,14 @@ export default function AddPost() {
 				>
 					{`${title.length} / ${CHAR_NUM_LIMIT}`}
 				</p>
+
+				<input
+					type="file"
+					accept="image/*"
+					ref={uploadedImage}
+					style={{ display: "none" }}
+					onChange={handleUpload}
+				/>
 				<textarea
 					onKeyDown={(e) => {
 						const isDeleteOrNavKey =
@@ -78,17 +98,54 @@ export default function AddPost() {
 						if (!isDeleteOrNavKey && overTextLimit) e.preventDefault();
 					}}
 					onChange={(e) => setTitle(e.target.value)}
-					className="bg-white font-medium text-md px-2 py-1 mx-2 w-full rounded-md focus:outline-none focus:outline-blue-300"
+					className="bg-white font-medium text-md px-2 py-1 mx-2 w-full rounded-md focus:outline-none focus:outline-blue-300 max-h-32" 
 					rows={3}
 					cols={50}
 					placeholder="What's happening?"
 				></textarea>
+
+				{file && (
+					<div className="flex justify-center relative">
+						<button
+							type="button"
+							className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-100 rounded-full focus:ring-2 focus:ring-gray-300 p-0.5 hover:bg-gray-100 inline-flex h-6 w-6 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700 absolute top-8 left-[15%]"
+							data-dismiss-target="#toast-default"
+							aria-label="Close"
+							onClick={() => setUploadedImage(undefined)}
+						>
+							<span className="sr-only">Close</span>
+							<svg
+								aria-hidden="true"
+								className="w-5 h-5"
+								fill="currentColor"
+								viewBox="0 0 20 20"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									fillRule="evenodd"
+									d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+									clipRule="evenodd"
+								></path>
+							</svg>
+						</button>
+
+						<img
+							src={URL.createObjectURL(file)}
+							alt="Uploaded Image"
+							className="w-3/4 h-1/2 max-h-64 mt-4 rounded-xl"
+						/>
+					</div>
+				)}
 			</div>
 
 			<div className="flex">
 				<div className="w-55 ">
 					<div className="flex items-center">
-						<div className="flex-1 text-center pt-4">
+						{/* ADD IMAGE ICON */}
+						<div
+							className="flex-1 text-center pt-4"
+							onClick={() => uploadedImage.current?.click()}
+						>
 							<a
 								href="#"
 								className="mt-1 group flex items-center text-blue-400 px-2 py-2 text-base leading-6 font-medium duration-400 hover:scale-[1.2] hover:text-blue-500"

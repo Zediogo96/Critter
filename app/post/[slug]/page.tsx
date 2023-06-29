@@ -17,7 +17,6 @@ import SearchBar from "@/app/components/SearchBar";
 
 import { URL } from "../../types/URL";
 
-
 // Fetch Details of a single post
 const fetchDetails = async (slug: string) => {
 	const response = await axios.get(`/api/posts/getPost/${slug}`);

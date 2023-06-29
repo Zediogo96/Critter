@@ -55,33 +55,34 @@ model VerificationToken {
 }
 
 model Post {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  title     String   @db.VarChar(280)
-  published Boolean  @default(false)
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @default(now())
+  title     String    @db.VarChar(280)
+  published Boolean   @default(false)
   userID    String
-  user      User     @relation(fields: [userID], references: [id], onDelete: Cascade)
+  image     String
+  user      User      @relation(fields: [userID], references: [id], onDelete: Cascade)
   comments  Comment[]
   likes     Like[]
 }
 
 model Comment {
-  id String @id @default(cuid())
-  message String @db.VarChar(280)
-  postID String 
-  userID String
+  id        String   @id @default(cuid())
+  message   String   @db.VarChar(280)
+  postID    String
+  userID    String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-  post Post @relation(fields: [postID], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userID], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postID], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userID], references: [id], onDelete: Cascade)
 }
 
 model Like {
-  id String @id @default(cuid())
-  postID String
-  userID String
+  id        String   @id @default(cuid())
+  postID    String
+  userID    String
   createdAt DateTime @default(now())
-  post Post @relation(fields: [postID], references: [id], onDelete: Cascade)
-  user User @relation(fields: [userID], references: [id], onDelete: Cascade)
+  post      Post     @relation(fields: [postID], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userID], references: [id], onDelete: Cascade)
 }
