@@ -61,7 +61,7 @@ model Post {
   title     String    @db.VarChar(280)
   published Boolean   @default(false)
   userID    String
-  image     String
+  image     String    @default("@/app/public/default-image.jpg")
   user      User      @relation(fields: [userID], references: [id], onDelete: Cascade)
   comments  Comment[]
   likes     Like[]

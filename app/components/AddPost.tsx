@@ -22,8 +22,7 @@ export default function AddPost() {
 
 	const [file, setUploadedImage] = useState();
 
-	function handleUpload(e: any) {
-		console.log(e.target.files);
+	async function handleUpload(e: any) {
 		setUploadedImage(e.target.files[0]);
 		e.target.value = null;
 	}
@@ -32,8 +31,16 @@ export default function AddPost() {
 
 	// Create a post
 	const { mutate } = useMutation(
-		async (title: string) =>
-			await axios.post("/api/posts/addPost", { title: title }),
+		async (data: { title: string, file: File }) => {
+			const formData = new FormData();
+			formData.append("title", data.title);
+			formData.append("file", data.file);
+			return await axios.post("/api/posts/addPost", formData, {
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			});
+		},
 		{
 			onSuccess: (response) => {
 				// To clear the loading toast
@@ -60,7 +67,9 @@ export default function AddPost() {
 		const toastID = toast.loading("Submiting your Critter...");
 		e.preventDefault();
 		setIsDisabled(true);
-		mutate(title);
+		const postData = { title, file };
+		console.log("POST DATA", postData)
+		mutate(postData as any);
 	};
 
 	return (
@@ -98,7 +107,7 @@ export default function AddPost() {
 						if (!isDeleteOrNavKey && overTextLimit) e.preventDefault();
 					}}
 					onChange={(e) => setTitle(e.target.value)}
-					className="bg-white font-medium text-md px-2 py-1 mx-2 w-full rounded-md focus:outline-none focus:outline-blue-300 max-h-32" 
+					className="bg-white font-medium text-md px-2 py-1 mx-2 w-full rounded-md focus:outline-none focus:outline-blue-300 max-h-32"
 					rows={3}
 					cols={50}
 					placeholder="What's happening?"
