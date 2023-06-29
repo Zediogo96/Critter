@@ -1,7 +1,7 @@
 "use Client";
 
 import { useEffect, useRef, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import axios, { AxiosError } from "axios";
 
@@ -11,11 +11,14 @@ export default function AddPost() {
 	const [title, setTitle] = useState("");
 	const [overTextLimit, isOverTextLimit] = useState(false);
 	const [isDisabled, setIsDisabled] = useState(false);
+	const queryClient = useQueryClient();
 
 	useEffect(() => {
 		if (title.length >= CHAR_NUM_LIMIT) isOverTextLimit(true);
 		else isOverTextLimit(false);
 	}, [title]);
+
+
 
 	// Handle image upload
 	const uploadedImage = useRef<HTMLInputElement>(null);
@@ -31,7 +34,7 @@ export default function AddPost() {
 
 	// Create a post
 	const { mutate } = useMutation(
-		async (data: { title: string, file: File }) => {
+		async (data: { title: string; file: File }) => {
 			const formData = new FormData();
 			formData.append("title", data.title);
 			formData.append("file", data.file);
@@ -53,7 +56,11 @@ export default function AddPost() {
 				setIsDisabled(false);
 				// Show the response message in a toast notification
 				if (response?.data.status === 403) toast.error(response?.data.message);
-				else toast.success(response?.data.message);
+				else {
+					toast.success(response?.data.message);
+					setUploadedImage(undefined);
+					queryClient.invalidateQueries("posts" as any);
+				}
 			},
 			onError: (error) => {
 				toast.dismiss();
@@ -68,7 +75,6 @@ export default function AddPost() {
 		e.preventDefault();
 		setIsDisabled(true);
 		const postData = { title, file };
-		console.log("POST DATA", postData)
 		mutate(postData as any);
 	};
 

@@ -4,6 +4,7 @@ import { authOptions } from "@/utils/authOptions";
 import prisma from "@/prisma/client";
 import fs from "fs";
 import path from "path";
+import { v4 as uuidv4 } from 'uuid';
 
 export async function POST(request: NextRequest) {
 	const session = await getServerSession(authOptions);
@@ -16,12 +17,8 @@ export async function POST(request: NextRequest) {
 
 	const body = await request.formData();
 
-	console.log("BODY:", body);
-
 	const title: string = body.get("title") as string;
 	const image: File = body.get("file") as File;
-
-	console.log("IMAGE:", image);
 
 	const prismaUser = await prisma.user.findUnique({
 		where: {
@@ -41,31 +38,35 @@ export async function POST(request: NextRequest) {
 		});
 	}
 
-	// save file to public folder
-
 	try {
-		const result = await prisma.post.create({
-			data: {
-				title,
-				userID: prismaUser.id,
-				image: image.name,
-			},
-		});
 
-		const postID = result.id;
-		
+		// get cuid() from prisma
+		const postID = uuidv4();
 
 		// get type of image
 		const imageType = image.type.split("/")[1];
 
-		const filePath = path.join(
-			process.cwd(),
+		let filePath = path.join(
+			"./",
 			"public",
 			"posts",
 			"main_Image",
 			postID + "." + imageType
 		);
 
+		// replace "\" with "/" for windows
+		filePath = filePath.replace(/\\/g, "/");
+		
+		const result = await prisma.post.create({
+			data: {
+				id: postID,
+				title,
+				userID: prismaUser.id,
+				image: filePath
+			},
+		});
+
+		// Save file to public folder
 		const fileBuffer = await image.arrayBuffer();
 		fs.writeFileSync(filePath, Buffer.from(fileBuffer));
 

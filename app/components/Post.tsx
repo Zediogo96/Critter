@@ -12,6 +12,7 @@ export default function Post({
 	id,
 	likes,
 	userLiked,
+	image
 }: {
 	username: string;
 	title: string;
@@ -20,6 +21,7 @@ export default function Post({
 	id: string;
 	likes: any;
 	userLiked: Boolean;
+	image: string;
 }) {
 
 	// update the like button
@@ -81,6 +83,26 @@ export default function Post({
 						dangerouslySetInnerHTML={{ __html: parsedTitle }}
 					></p>
 				</Link>
+
+				{/* Image */}
+				{image && (
+					<div className="flex-shrink-0 group block">
+						<div className="flex items-center">
+							<div className="mt-2">
+								<Link href={`/post/${id}`}>
+									<Image
+										className="w-[90%] h-[80%] rounded-lg"
+										width={512}
+										height={512}
+										src={"/../" + image}
+										alt=""
+										priority
+									/>
+								</Link>
+							</div>
+						</div>
+					</div>
+				)}
 
 				<div className="flex">
 					<div className="w-full">
