@@ -37,15 +37,20 @@ export default function AddComment({ postID }: { postID: string }) {
 
 		{
 			onSuccess: () => {
-				// queryClient.invalidateQueries("postDetails");
-				toast.success("Comment added successfully", {
-					id: commentToastID,
-				});
+				setIsDisabled(false);
+				toast.dismiss();
+				queryClient.invalidateQueries(["postDetails"]);
+				toast.success("Comment added successfully");
+				setTitle("");
+				// scroll to first comment
+				const comment = document.querySelector(".commentSection");
+				comment?.scrollIntoView({ behavior: "smooth" });
 			},
 
 			onError: (error) => {
 				console.log(error);
 				setIsDisabled(false);
+				toast.dismiss();
 				if (error instanceof AxiosError) {
 					toast.error(error.response?.data.message);
 				}
@@ -57,7 +62,7 @@ export default function AddComment({ postID }: { postID: string }) {
 		e.preventDefault();
 		setIsDisabled(true);
 		commentToastID = toast.loading("Adding comment...");
-		mutate({postID, title} as Comment);
+		mutate({ postID, title } as Comment);
 	};
 
 	return (

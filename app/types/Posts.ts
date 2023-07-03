@@ -4,6 +4,10 @@ export type PostsType = {
     id: string
     createdAt?: string
     comments?: {
+	  message: ReactNode
+	  user: any
+	  user: any
+	  title: ReactNode
       createdAt: string
       id: string
       postId: string

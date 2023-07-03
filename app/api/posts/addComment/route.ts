@@ -25,8 +25,6 @@ export async function POST(request: NextRequest) {
 		return NextResponse.json({ status: 401,  message: "Please enter some text" });
 	}
 	try {
-
-        console.log("TRYING TO ADD COMMENT")
 		const result = await prisma.comment.create({
 			data: {
 				message: title,
