@@ -28,8 +28,12 @@ export default function Home() {
   data = data!.sort((a: PostsType, b: PostsType) => {
     return new Date(b.createdAt!).getTime() - new Date(a.createdAt!).getTime()
   })
+
+  console.log(data)
   
   return (
+
+	
 		<div className="flex ">
 			<NavBar />
 			<div className="flex flex-col overflow-x-auto w-3/5">
@@ -45,6 +49,7 @@ export default function Home() {
 							likes={post.likes}
 							userLiked={post.liked!}
 							image={post.image!}
+							comments={post.comments}
 						/>
 					))}
 			</div>

@@ -82,6 +82,11 @@ export default function DashBoard(url: URL) {
 						datePublished={post.createdAt!}
 						userImg={session?.user?.image || ""}
 						id={post.id}
+						likes={post.likes}
+						userLiked={post.liked || false}
+						comments={post.comments}
+						image={post.image || ""}
+						
 					/>
 				))}
 			</div>

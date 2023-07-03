@@ -4,9 +4,9 @@ import { authOptions } from "@/utils/authOptions";
 import prisma from "@/prisma/client";
 import fs from "fs";
 import path from "path";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-export async function POST(request: NextRequest) {
+export default async function POST(request: NextRequest) {
 	const session = await getServerSession(authOptions);
 
 	if (!session)
@@ -43,35 +43,41 @@ export async function POST(request: NextRequest) {
 		// get cuid() from prisma
 		const postID = uuidv4();
 
-		// get type of image
-		const imageType = image.type.split("/")[1];
+		let filePath;
 
-		let filePath = path.join(
-			"./",
-			"public",
-			"posts",
-			"main_Image",
-			postID + "." + imageType
-		);
+		if (image && image.size > 0) {
+			console.log("HERE 1")
+			// get type of image
+			const imageType = image.type.split("/")[1];
 
-		// replace "\" with "/" for windows
-		filePath = filePath.replace(/\\/g, "/");
-		
+			filePath = path.join(
+				"./",
+				"public",
+				"posts",
+				"main_Image",
+				postID + "." + imageType
+			);
+
+			// replace "\" with "/" for windows
+			filePath = filePath.replace(/\\/g, "/");
+
+			// Save file to public folder
+			const fileBuffer = await image.arrayBuffer();
+			fs.writeFileSync(filePath, Buffer.from(fileBuffer));
+		}
+
+		console.log("HERE")
+
 		const result = await prisma.post.create({
 			data: {
 				id: postID,
 				title,
 				userID: prismaUser.id,
-				image: filePath
+				image: filePath || null, // Use null if image is not provided
 			},
 		});
 
-		// Save file to public folder
-		const fileBuffer = await image.arrayBuffer();
-		fs.writeFileSync(filePath, Buffer.from(fileBuffer));
-
 		return NextResponse.json({ status: 200, message: "Post Created!" });
-
 	} catch (err) {
 		return NextResponse.json({
 			status: 500,

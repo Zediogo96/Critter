@@ -14,7 +14,8 @@ export async function GET(
 			},
 			include: {
 				user: true,
-				comments: true
+				comments: true,
+				likes: true
 			},
 		});
 

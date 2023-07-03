@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function NavBar() {
 	return (
 		<nav className="mt-5 px-2 mr-14">
@@ -105,8 +107,8 @@ export default function NavBar() {
 				</svg>
 				Lists
 			</a>
-			<a
-				href="#"
+			<Link 
+				href="/dashboard"
 				className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-400 hover:text-white"
 			>
 				<svg
@@ -121,7 +123,7 @@ export default function NavBar() {
 					<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
 				</svg>
 				Profile
-			</a>
+			</Link>
 			<a
 				href="#"
 				className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-400 hover:text-white"

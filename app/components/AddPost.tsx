@@ -18,8 +18,6 @@ export default function AddPost() {
 		else isOverTextLimit(false);
 	}, [title]);
 
-
-
 	// Handle image upload
 	const uploadedImage = useRef<HTMLInputElement>(null);
 

@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import axios from "axios";
 import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Post({
 	username,
@@ -12,7 +13,8 @@ export default function Post({
 	id,
 	likes,
 	userLiked,
-	image
+	image,
+	comments,
 }: {
 	username: string;
 	title: string;
@@ -22,8 +24,9 @@ export default function Post({
 	likes: any;
 	userLiked: Boolean;
 	image: string;
+	comments: any;
 }) {
-
+	const queryClient = useQueryClient();
 	// update the like button
 	const [isLiked, setUserLiked] = useState(userLiked);
 
@@ -36,7 +39,8 @@ export default function Post({
 	};
 
 	const handleLike = () => {
-		axios.post("/api/posts/addLike", { postId: id })
+		axios
+			.post("/api/posts/addLike", { postId: id })
 			.then((response) => {
 				if (response.status === 201) setUserLiked(isLiked);
 				else if (response.status === 200) setUserLiked(!isLiked);
@@ -108,23 +112,26 @@ export default function Post({
 					<div className="w-full">
 						<div className="flex items-center">
 							<div className="flex-1 text-center">
-								{/* Comment Button */}
-								<a
-									href="#"
-									className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium duration-400 hover:scale-[1.2] hover:text-blue-500"
-								>
-									<svg
-										className="text-center h-6 w-6"
-										fill="none"
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
+								<div className="flex flex-row">
+									{/* Comment Button */}
+									<a
+										href="#"
+										className="w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium duration-400 hover:scale-[1.2] hover:text-blue-500"
 									>
-										<path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-									</svg>
-								</a>
+										<svg
+											className="text-center h-6 w-6"
+											fill="none"
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth="2"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+										>
+											<path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+										</svg>
+									</a>
+									<p className="mt-4 text-xs text-black"> {comments.length}</p>
+								</div>
 							</div>
 							{/* ReCritt Button */}
 							<div className="flex-1 text-center py-2 m-2">
@@ -146,27 +153,30 @@ export default function Post({
 								</a>
 							</div>
 							{/* Like Button */}
-							<div className="flex-1 text-center py-2 m-2">
-								<a
-									onClick={handleLike}
-									href="#"
-									className={`w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium duration-400 hover:scale-[1.2] 
-									
-									${isLiked ? 'text-red-500 hover:text-red-300' : ''}
-									hover:text-blue-500`}
-								>
-									<svg
-										className="text-center h-7 w-6"
-										fill={isLiked ? 'red' : 'none'}
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth="2"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
+							<div className="flex-1 flex-row text-center py-2 m-2">
+								<div className="flex flex-row">
+									<a
+										onClick={handleLike}
+										href="#"
+										className={`w-12 mt-1 group flex items-center text-gray-500 px-3 py-2 text-base leading-6 font-medium duration-400 hover:scale-[1.2] 
+                                    
+								${isLiked ? "text-red-500 hover:text-red-300" : ""}
+								hover:text-blue-500`}
 									>
-										<path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-									</svg>
-								</a>
+										<svg
+											className="text-center h-7 w-6"
+											fill={isLiked ? "red" : "none"}
+											strokeLinecap="round"
+											strokeLinejoin="round"
+											strokeWidth="2"
+											stroke="currentColor"
+											viewBox="0 0 24 24"
+										>
+											<path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+										</svg>
+									</a>
+									<p className="mt-5 text-xs text-black">{likes.length}</p>
+								</div>
 							</div>
 							{/* Share Button */}
 							<div className="flex-1 text-center py-2 m-2">

@@ -7,8 +7,6 @@ export async function GET(request: NextRequest) {
 	
 	const session = await getServerSession(authOptions)
 
-	console.log("user_email: ", session?.user?.email)
-
 	const userEmail = session?.user?.email
 
 	try {
@@ -22,13 +20,12 @@ export async function GET(request: NextRequest) {
 						createdAt: "desc",
 					},
 					include: {
-						comments: true
+						comments: true,
+						likes: true
 					}
 				},
 			},
         });
-
-		console.log("userPosts: ", userPosts)
 
 		return NextResponse.json({ status: 200, userPosts });
 	} catch (err) {
