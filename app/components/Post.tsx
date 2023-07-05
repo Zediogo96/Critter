@@ -4,6 +4,7 @@ import Image from "next/image";
 import axios from "axios";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import Toggle from "@/app/dashboard/Toggle";
 
 export default function Post({
 	username,
@@ -54,6 +55,7 @@ export default function Post({
 
 	return (
 		<div>
+			
 			<div className="flex flex-shrink-0 p-4 pb-0">
 				<span className="flex-shrink-0 group block">
 					<div className="flex items-center">
@@ -79,6 +81,8 @@ export default function Post({
 						</div>
 					</div>
 				</span>
+
+				<Toggle />
 			</div>
 			<div className="pl-16">
 				<Link href={`/post/${id}`}>

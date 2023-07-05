@@ -14,7 +14,7 @@ const roboto = Roboto({
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			<body className={`mx-4 md:mx-48 xl:mx-96 ${roboto.variable} bg-zinc-100`}>
+			<body className={`mx-4 md:mx-48 xl:mx-96 ${roboto.variable} bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-white via-gray-300 to-white`}>
 				<QueryWrapper>
 					<AuthContext>
 						

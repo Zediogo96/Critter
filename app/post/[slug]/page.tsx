@@ -43,7 +43,6 @@ export default function PostDetails(url: URL) {
 
 	if (isLoading) return "Loading...";
 	if (error) return error;
-	
 
 	let sortedComments = data?.comments?.sort((a, b) => {
 		return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
@@ -98,6 +97,7 @@ export default function PostDetails(url: URL) {
 							</div>
 
 							<span className="ml-14">{comment.message}</span>
+							<hr className="border-gray-200 mt-5"></hr>
 						</div>
 					))}
 				</div>

@@ -80,7 +80,7 @@ export default function AddPost() {
 		<form
 			method="POST"
 			onSubmit={submitPost}
-			className="bg-blue-100 my-8 p-8 rounded-lg shadow-xl ml-2"
+			className="bg-gradient-to-r from-blue-100 via-blue-300 to-blue-300 my-8 p-8 rounded-lg shadow-xl ml-2"
 		>
 			<div className="flex-1 px-2 pt-2 mt-1">
 				<p

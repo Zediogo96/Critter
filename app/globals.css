@@ -20,8 +20,6 @@ html {
   }
 }
 
-
-
 /* ANIMATIONS */
 
 @keyframes shake {
@@ -95,5 +93,10 @@ html {
 textarea::placeholder {
   color: rgb(35, 36, 95);
 }
+
+#searchBar::placeholder {
+  color: rgb(35, 36, 95);
+}
+
 
 

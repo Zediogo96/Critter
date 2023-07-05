@@ -30,6 +30,8 @@ export default function AddComment({ postID }: { postID: string }) {
 		else isOverTextLimit(false);
 	}, [title]);
 
+	
+
 	const { mutate } = useMutation(
 		async (data: Comment) => {
 			return axios.post("/api/posts/addComment", data);
