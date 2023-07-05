@@ -4,7 +4,7 @@ import { useState } from "react";
 export default function Toggle() {
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-	const toggleDropdown = () => {
+	const toggleDropdown = ({postID : string}) => {
 		setIsDropdownOpen(!isDropdownOpen);
 	};
 

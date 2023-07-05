@@ -5,7 +5,7 @@ export default function NavBar() {
 		<nav className="mt-5 px-2 mr-14">
 			<a
 				href="#"
-				className="group flex items-center px-2 py-2 text-base leading-6 font-semibold rounded-full hover:bg-blue-400  hover:text-white"
+				className="group flex items-center px-2 py-2 text-base leading-6 font-semibold rounded-full hover:bg-gradient-to-r from-blue-300 via-blue-400 to-blue-200  hover:text-white"
 			>
 				<svg
 					className="mr-4 h-6 w-6 "
@@ -24,7 +24,7 @@ export default function NavBar() {
 			</a>
 			<a
 				href="#"
-				className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-semibold rounded-full hover:bg-blue-400 hover:text-white"
+				className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-semibold rounded-full hover:bg-gradient-to-r from-blue-300 via-blue-400 to-blue-200  hover:text-white"
 			>
 				<svg
 					className="mr-4 h-6 w-6"
@@ -41,7 +41,7 @@ export default function NavBar() {
 			</a>
 			<a
 				href="#"
-				className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-400 hover:text-white"
+				className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-gradient-to-r from-blue-300 via-blue-400 to-blue-200  hover:text-white"
 			>
 				<svg
 					className="mr-4 h-6 w-6"
@@ -58,7 +58,7 @@ export default function NavBar() {
 			</a>
 			<a
 				href="#"
-				className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-400 hover:text-white"
+				className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-gradient-to-r from-blue-300 via-blue-400 to-blue-200  hover:text-white"
 			>
 				<svg
 					className="mr-4 h-6 w-6"
@@ -75,7 +75,7 @@ export default function NavBar() {
 			</a>
 			<a
 				href="#"
-				className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-400 hover:text-white"
+				className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-gradient-to-r from-blue-300 via-blue-400 to-blue-200  hover:text-white"
 			>
 				<svg
 					className="mr-4 h-6 w-6"
@@ -92,7 +92,7 @@ export default function NavBar() {
 			</a>
 			<a
 				href="#"
-				className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-400 hover:text-white"
+				className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-gradient-to-r from-blue-300 via-blue-400 to-blue-200  hover:text-white"
 			>
 				<svg
 					className="mr-4 h-6 w-6"
@@ -109,7 +109,7 @@ export default function NavBar() {
 			</a>
 			<Link 
 				href="/dashboard"
-				className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-400 hover:text-white"
+				className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-gradient-to-r from-blue-300 via-blue-400 to-blue-200  hover:text-white"
 			>
 				<svg
 					className="mr-4 h-6 w-6"
@@ -126,7 +126,7 @@ export default function NavBar() {
 			</Link>
 			<a
 				href="#"
-				className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-blue-400 hover:text-white"
+				className="mt-1 group flex items-center px-2 py-2 text-base leading-6 font-medium rounded-full hover:bg-gradient-to-r from-blue-300 via-blue-400 to-blue-200  hover:text-white"
 			>
 				<svg
 					className="mr-4 h-6 w-6"
