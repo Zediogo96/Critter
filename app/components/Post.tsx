@@ -82,7 +82,7 @@ export default function Post({
 					</div>
 				</span>
 
-				<Toggle />
+				<Toggle postID={id} postAuthor={username} />
 			</div>
 			<div className="pl-16">
 				<Link href={`/post/${id}`}>
