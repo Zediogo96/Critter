@@ -54,7 +54,7 @@ export default function Post({
 	const parsedTitle = parseTitle(title);
 
 	return (
-		<div>
+		<div className="rounded-xl mb-2 bg-gradient-to-r from-gray-100 to-gray-200">
 			
 			<div className="flex flex-shrink-0 p-4 pb-0">
 				<span className="flex-shrink-0 group block">
