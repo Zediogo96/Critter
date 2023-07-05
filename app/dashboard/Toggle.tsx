@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
+import { toast } from "react-hot-toast";
 
 export default function Toggle({
 	postID,
@@ -10,6 +13,8 @@ export default function Toggle({
 	postID: string;
 	postAuthor: string;
 }) {
+	const queryClient = useQueryClient();
+
 	const { data: session, status } = useSession();
 
 	const isAuthor = session?.user?.name === postAuthor;
@@ -20,6 +25,29 @@ export default function Toggle({
 		setIsDropdownOpen(!isDropdownOpen);
 	};
 
+	const { mutate } = useMutation(
+		async (data: { postID: string }) => {
+			return axios.post("/api/posts/deletePost", { data });
+		},
+
+		{
+			onSuccess: () => {
+				queryClient.invalidateQueries(["posts"]);
+				toast.success("Post deleted successfully");
+			},
+
+			onError: (error) => {
+				console.log(error);
+				toast.error("Error deleting post");
+			},
+		}
+	);
+
+	const handleDeletePost = (postID: string) => {
+		console.log(postID);
+		mutate({postID});
+	};
+
 	return (
 		<div>
 			<button
@@ -27,7 +55,6 @@ export default function Toggle({
 				data-dropdown-toggle="dropdownDotsHorizontal"
 				className="inline-flex items-center p-3 text-sm font-medium text-center rounded-full hover:bg-zinc-300 focus:ring-2 focus:outline-nonet ml-64 "
 				type="button"
-				onBlur={toggleDropdown}
 				onClick={toggleDropdown}
 			>
 				<svg
@@ -43,13 +70,16 @@ export default function Toggle({
 			{/* Dropdown menu */}
 			<div
 				id="dropdownDotsHorizontal"
-				className={`dropdown dropdown-end absolute z-50 p-2 ml-20 shadow-xl rounded-xl border-4 border-slate-400 border-y-slate-700 bg-gradient-to-r from-gray-200 via-gray-400 to-gray-300
+				className={`dropdown dropdown-end absolute p-2 ml-20 shadow-xl rounded-xl border-4 border-slate-400 border-y-slate-700 bg-gradient-to-r from-gray-200 via-gray-400 to-gray-300
                 ${isDropdownOpen ? "block" : "hidden"}`}
 				tabIndex={0}
 			>
-				<ul className="menu dropdown-content w-52" tabIndex={0}>
+				<ul className="menu dropdown-content z-50 w-52" tabIndex={0}>
 					{isAuthor && (
-						<li className="flex items-center rounded-xl p-1 hover:bg-gradient-to-r from-red-200 to-red-400">
+						<li
+							className="flex items-center rounded-xl cursor-pointer p-1 hover:bg-gradient-to-r z-4 from-red-200 to-red-400"
+							onClick={() => handleDeletePost(postID)}
+						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								className="icon icon-tabler icon-tabler-trash-x-filled w-5 h-5"
@@ -77,7 +107,7 @@ export default function Toggle({
 							<span className="ml-2">Delete Post</span>
 						</li>
 					)}
-					<li className="rounded-xl p-1 hover:bg-gradient-to-r from-cyan-200 to-blue-300">
+					<li className="rounded-xl cursor-pointer p-1 hover:bg-gradient-to-r from-cyan-200 to-blue-300">
 						<a>Item 2</a>
 					</li>
 				</ul>

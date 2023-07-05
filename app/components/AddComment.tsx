@@ -31,7 +31,6 @@ export default function AddComment({ postID }: { postID: string }) {
 	}, [title]);
 
 	
-
 	const { mutate } = useMutation(
 		async (data: Comment) => {
 			return axios.post("/api/posts/addComment", data);
