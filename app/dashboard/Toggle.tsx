@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-hot-toast";
+import ConfirmModal from "../components/Modals/ConfirmModal";
 
 export default function Toggle({
 	postID,
@@ -13,13 +14,18 @@ export default function Toggle({
 	postID: string;
 	postAuthor: string;
 }) {
+
+	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const [showModal, setShowModal] = useState(false);
 	const queryClient = useQueryClient();
 
 	const { data: session, status } = useSession();
 
 	const isAuthor = session?.user?.name === postAuthor;
 
-	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+	const handleToggleModal = () => {
+		setShowModal(!showModal);
+	};	
 
 	const toggleDropdown = () => {
 		setIsDropdownOpen(!isDropdownOpen);
@@ -78,7 +84,7 @@ export default function Toggle({
 					{isAuthor && (
 						<li
 							className="flex items-center rounded-xl cursor-pointer p-1 hover:bg-gradient-to-r z-4 from-red-200 to-red-400"
-							onClick={() => handleDeletePost(postID)}
+							onClick={() => handleToggleModal()}
 						>
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -112,6 +118,8 @@ export default function Toggle({
 					</li>
 				</ul>
 			</div>
+
+			<ConfirmModal title="Are you sure you want to delete the post?" description="This action cannot be undone" confirmFunction={() => handleDeletePost(postID)} openFunction={() => handleToggleModal} showModal={showModal} />
 		</div>
 	);
 }

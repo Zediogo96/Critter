@@ -6,7 +6,7 @@ import fs from "fs";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
 
-export default async function POST(request: NextRequest) {
+export async function POST(request: NextRequest) {
 	const session = await getServerSession(authOptions);
 
 	if (!session)
@@ -65,9 +65,6 @@ export default async function POST(request: NextRequest) {
 			const fileBuffer = await image.arrayBuffer();
 			fs.writeFileSync(filePath, Buffer.from(fileBuffer));
 		}
-
-		console.log("HERE")
-
 		const result = await prisma.post.create({
 			data: {
 				id: postID,
