@@ -46,7 +46,6 @@ export async function POST(request: NextRequest) {
 		let filePath;
 
 		if (image && image.size > 0) {
-			console.log("HERE 1")
 			// get type of image
 			const imageType = image.type.split("/")[1];
 
